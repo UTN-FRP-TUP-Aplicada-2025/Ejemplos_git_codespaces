@@ -1,0 +1,60 @@
+name: Deploy Backend a Railway
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'PersonasAPI/**'
+      - '.github/workflows/deploy-railway.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: ✅ Checkout
+      uses: actions/checkout@v3
+
+    - name: 📦 Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: 🏗️ Compilar backend
+      run: |
+        cd PersonasAPI
+        dotnet restore
+        dotnet build -c Release
+
+    - name: 📦 Publicar
+      run: |
+        cd PersonasAPI
+        dotnet publish -c Release -o ../publish-output
+
+    - name: 🚀 Deploy a Railway
+      if: github.ref == 'refs/heads/main'
+      env:
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      run: |
+        if [ -z "$RAILWAY_TOKEN" ]; then
+          echo "⚠️  RAILWAY_TOKEN no configurado. Skip deploy."
+          echo "📝 Para desplegar a Railway:"
+          echo "   1. Crear proyecto en https://railway.app"
+          echo "   2. Agregar RAILWAY_TOKEN a Settings → Secrets"
+          echo "   3. Hacer push nuevamente"
+        else
+          echo "✅ Deploying to Railway..."
+          npm install -g @railway/cli
+          railway link
+          railway up
+        fi
+
+    - name: 📊 Resumen
+      run: |
+        echo "✨ Backend compilado exitosamente"
+        echo "Para desplegar en Railway:"
+        echo "  1. npm install -g @railway/cli"
+        echo "  2. railway login"
+        echo "  3. railway init (en PersonasAPI/)"
+        echo "  4. railway up"

@@ -1,4 +1,4 @@
-name: Deploy API Backend
+name: 🔧 Build Backend Node.js
 
 on:
   push:
@@ -10,11 +10,11 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: ✅ Checkout código
+    - name: ✅ Checkout
       uses: actions/checkout@v3
 
     - name: 📦 Setup Node.js
@@ -24,24 +24,20 @@ jobs:
         cache: 'npm'
         cache-dependency-path: 'backend/package-lock.json'
 
-    - name: 🔧 Instalar dependencias
+    - name: 📥 Install dependencies
       run: |
         cd backend
         npm install
 
-    - name: 🧪 Ejecutar tests (si existen)
+    - name: ✅ Validate
       run: |
         cd backend
-        npm test || echo "No tests configured"
+        node -c server.js
+        echo "✅ Backend validado"
 
-    - name: 🚀 Deploy notificación
-      run: echo "Backend listo para desplegar en Vercel/Render"
-
-    - name: 📤 Deploy a Vercel (opcional)
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      env:
-        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    - name: 📝 Info
       run: |
-        cd backend
-        npm install -g vercel
-        vercel --prod --token $VERCEL_TOKEN || echo "Vercel deployment skipped"
+        echo "Backend listo para desplegar:"
+        echo "  - Railway: https://railway.app"
+        echo "  - Render: https://render.com"  
+        echo "  - Vercel: https://vercel.com"

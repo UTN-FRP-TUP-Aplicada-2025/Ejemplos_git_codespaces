@@ -1,16 +1,15 @@
-name: Deploy Frontend & Build
+name: 🚀 Deploy Frontend a GitHub Pages
 
 on:
   push:
     branches: [ main ]
     paths:
       - 'web/**'
+      - 'README*.md'
       - '.github/workflows/deploy-frontend.yml'
-  pull_request:
-    branches: [ main ]
 
 jobs:
-  deploy-pages:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,20 +21,29 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-    - name: ✅ Checkout código
+    - name: ✅ Checkout
       uses: actions/checkout@v3
+
+    - name: 📁 Preparar archivos
+      run: |
+        mkdir -p dist
+        cp -r web/* dist/ 2>/dev/null || true
+        cp README*.md dist/ 2>/dev/null || true
+        echo "✅ Archivos listos"
 
     - name: 🔧 Setup Pages
       uses: actions/configure-pages@v3
 
-    - name: 📦 Subir artefactos
+    - name: 📤 Upload artifact
       uses: actions/upload-pages-artifact@v2
       with:
-        path: 'web'
+        path: 'dist'
 
-    - name: 🚀 Deploy a GitHub Pages
+    - name: 🚀 Deploy
       id: deployment
       uses: actions/deploy-pages@v2
 
-    - name: ✨ Build completado
-      run: echo "Frontend desplegado en GitHub Pages"
+    - name: ✨ Completado
+      run: |
+        echo "✅ Frontend en GitHub Pages"
+        echo "📱 Configura el backend en web/config.html"
