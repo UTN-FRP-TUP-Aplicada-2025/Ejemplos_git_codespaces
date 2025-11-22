@@ -1,15 +1,6 @@
-using PersonasAPI.DTOs;
+using Ejemplo_API_Web.DTOs;
 
-namespace PersonasAPI.Services;
-
-public interface IPersonaService
-{
-    List<PersonaDto> ObtenerTodas();
-    PersonaDto? ObtenerPorId(int id);
-    PersonaDto Crear(PersonaDto persona);
-    bool Actualizar(int id, PersonaDto persona);
-    bool Eliminar(int id);
-}
+namespace Ejemplo_API_Web.Services;
 
 public class PersonaService : IPersonaService
 {
