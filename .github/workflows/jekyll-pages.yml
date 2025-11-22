@@ -1,4 +1,4 @@
-name: Deploy Jekyll with Dynamic API Proxy
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -21,40 +21,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-
-      - name: Build & Publish API
-        run: |
-          dotnet publish Ejemplos_codespaces/Ejemplo_API_Web/Ejemplo_API_Web.csproj \
-            -c Release -o ./publish /p:UseAppHost=false
-
-      - name: Generate API Documentation
-        run: |
-          mkdir -p ./_site
-          # Copiar documentación estática
-          cp -r ./docs/* ./_site/ 2>/dev/null || true
-          
-          # Generar OpenAPI spec (si está disponible)
-          if [ -f ./publish/swagger.json ]; then
-            cp ./publish/swagger.json ./_site/swagger.json
-          fi
-
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
-          source: ./_site
-          destination: ./_site_output
+          source: ./docs
+          destination: ./_site
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './_site_output'
+        uses: actions/upload-pages-artifact@v4
 
   deploy:
     environment:
@@ -62,6 +39,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      pages: write
+      id-token: write
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
@@ -69,9 +49,7 @@ jobs:
 
       - name: Create Summary
         run: |
-          echo "## ✅ Deploy completado" >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ GitHub Pages Deploy Completado" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📍 URLs:" >> $GITHUB_STEP_SUMMARY
-          echo "- **GitHub Pages**: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **API Proxy**: ${{ steps.deployment.outputs.page_url }}api-proxy.html" >> $GITHUB_STEP_SUMMARY
-          echo "- **Documentación**: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "### 📍 URL:" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
