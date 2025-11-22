@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Personas - GitHub Pages</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 { color: #667eea; margin-bottom: 10px; }
+        .status {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .endpoint {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border-left: 4px solid #2196f3;
+        }
+        .method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: white;
+            margin-right: 10px;
+        }
+        .get { background: #4caf50; }
+        .post { background: #2196f3; }
+        .put { background: #ff9800; }
+        .delete { background: #f44336; }
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .info-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 API Personas - .NET Core 8.0</h1>
+        <p><strong>Estado:</strong> Deployada en GitHub Pages</p>
+        
+        <div class="status">
+            ✅ La API está disponible en: <code>https://api.ejemplo.local</code>
+        </div>
+
+        <h2>📍 Endpoints Disponibles</h2>
+        
+        <div class="endpoint">
+            <span class="method get">GET</span> /api/personas
+            <p>Obtiene todas las personas</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method get">GET</span> /api/personas/{id}
+            <p>Obtiene una persona por su ID</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method post">POST</span> /api/personas
+            <p>Crea una nueva persona</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method put">PUT</span> /api/personas/{id}
+            <p>Actualiza una persona existente</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method delete">DELETE</span> /api/personas/{id}
+            <p>Elimina una persona</p>
+        </div>
+
+        <h2>🔧 Swagger UI</h2>
+        <p>Accede a la documentación interactiva en: <code>/swagger</code></p>
+
+        <div class="info-box">
+            <strong>ℹ️ Nota:</strong> Esta página es un índice. Para ejecutar la API localmente, ejecuta <code>dotnet run</code> en el directorio del proyecto.
+        </div>
+
+        <h2>📦 Stack Tecnológico</h2>
+        <ul>
+            <li>.NET Core 8.0</li>
+            <li>ASP.NET Core Web API</li>
+            <li>Swagger/OpenAPI</li>
+            <li>CORS habilitado</li>
+        </ul>
+
+        <hr>
+        <p style="text-align: center; color: #999; font-size: 12px;">
+            Última actualización: {{ date }}
+        </p>
+    </div>
+</body>
+</html>
