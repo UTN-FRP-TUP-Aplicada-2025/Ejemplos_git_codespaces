@@ -1,0 +1,44 @@
+name: Generate Codespaces API Proxy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  generate-proxy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Generate API Proxy Page
+      env:
+        CODESPACE_NAME: ${{ env.CODESPACE_NAME }}
+      run: |
+        chmod +x generate-proxy.sh
+        bash generate-proxy.sh
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+
+    - name: Create Summary
+      run: |
+        echo "## ✅ API Proxy Generado" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "La página proxy ha sido desplegada en GitHub Pages." >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### 📍 URL pública de tu API:" >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+        if [ -f docs/codespace-info.json ]; then
+          cat docs/codespace-info.json | grep -o '"publicUrl":"[^"]*"' | cut -d'"' -f4 >> $GITHUB_STEP_SUMMARY
+        else
+          echo "Accede a GitHub Pages para ver la URL" >> $GITHUB_STEP_SUMMARY
+        fi
+        echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
