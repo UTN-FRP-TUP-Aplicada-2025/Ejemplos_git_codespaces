@@ -1,0 +1,62 @@
+# Jekyll Configuration for API Personas
+
+# Site settings
+title: API Personas - .NET 10
+description: API REST con .NET 10, alojada en GitHub Codespaces
+url: "https://utn-frp-tup-aplicada-2025.github.io"
+baseurl: "/Ejemplos_git_codespaces"
+
+# Theme
+theme: minima
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Markdown processor
+markdown: kramdown
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /docs/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# Build settings
+exclude:
+  - .git
+  - .gitignore
+  - node_modules
+  - Gemfile
+  - Dockerfile
+  - .github
+  - Ejemplos_codespaces
+  - bin
+  - obj
+  - publish
+  - dotnet-install.sh
+  - generate-proxy.sh
+  - COMO_EJECUTAR.md
+
+# Include
+include:
+  - .htaccess
+
+# Permalinks
+permalink: pretty
+
+# Front matter
+front_matter_defaults:
+  - scope:
+      path: "_posts"
+    values:
+      layout: post
